@@ -1,0 +1,53 @@
+{
+    "development": {
+        "username": "pbe",
+        "password": "password",
+        "database": "pbepiano_development",
+        "host": "localhost",
+        "port": 3308,
+        "dialect": "mysql",
+        "engine": "InnoDB",
+        "charset": "utf8",
+        "pbe_config": {
+            "path": "storage_development"
+        },
+        "ssl": {
+            "key": "/ssl/key.pem",
+            "cert": "/ssl/cert.pem"
+        }
+    },
+    "test": {
+        "username": "pbe",
+        "password": "password",
+        "database": "pbepiano_test",
+        "host": "localhost",
+        "port": 3308,
+        "dialect": "mysql",
+        "engine": "InnoDB",
+        "charset": "utf8",
+        "pbe_config": {
+            "path": "storage_test"
+        },
+        "ssl": {
+            "key": "/ssl/key.pem",
+            "cert": "/ssl/cert.pem"
+        }
+    },
+    "production": {
+        "username": "pbe",
+        "password": "password",
+        "database": "pbepiano",
+        "host": "localhost",
+        "port": 3308,
+        "dialect": "mysql",
+        "engine": "InnoDB",
+        "charset": "utf8",
+        "pbe_config": {
+            "path": "storage"
+        },
+        "ssl": {
+            "key": "/ssl/key.pem",
+            "cert": "/ssl/cert.pem"
+        }
+    }
+}
