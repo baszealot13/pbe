@@ -1,0 +1,463 @@
+"use strict";
+
+controllers.controller('LessonController', 
+    ['$rootScope', '$routeParams', '$scope', '$q', '$filter', '$timeout', 'Lesson', 'LessonGroup', 'MidiService', 'ScalesService', 
+    function ($rootScope, $routeParams, $scope, $q, $filter, $timeout, Lesson, LessonGroup, Mid, Scales) {
+
+    $rootScope.requireUI = true;
+
+    $scope.setting = true;
+
+    $scope.playAll = true;
+    $scope.loop = false;
+    $scope.checkTiming = false;
+
+    $scope.hearing = true;
+    $scope.pause = false;
+    $scope.resume = false;
+
+
+    /******prepare lesson note************/
+    $scope.bars = 0;
+    $scope.playBars = [];
+    $scope.startBar = 0;
+    $scope.endBar = 0;
+    $scope.visibleBar = false;
+   
+
+    $scope.orgNote = [];
+    $scope.orgNoteNum = [];
+    $scope.orgSort = [];
+
+    $scope.note = ['C','C#','D','Eb','E','F','F#','G','G#','A','Bb','B'];
+
+    $scope.keyNote = [];
+    $scope.prevNote = [];
+    $scope.boardLine = [];
+
+    $scope.tempo = 0;
+    $scope.befrPlay = 0;
+    $scope.beat = 4;
+    $scope.befrPlay = $scope.beat*2;
+
+    $scope.countNoteOn = 0;
+    $scope.countLine = 0;
+    $scope.Score = 0;
+    /**************************************/
+
+    $scope.lesson = {};
+
+    JZZ.synth.MIDIjs.register(0, { soundfontUrl: "soundfont/", instrument: ["acoustic_grand_piano"] });
+
+    var ppqn, play, msg, listen, mf, bar, midArray = [], tbPlay, tbBoard, steam;
+
+    steam = new JZZ.SMPTE();
+
+    console.log('steam: ', steam);
+
+    var port = JZZ().openMidiOut(0).or(function(){
+        alert('Cannot open MIDI port!');
+    });
+
+    var _pathFile = function(path) {
+        $scope.$emit('beginLoading', true);
+
+        var b64 = Mid.convertMid(path.data);
+        // $scope.b64Song = b64;
+        mf = Mid.readMidFromBase64(JZZ_, b64);
+
+        $scope.orgNoteNum = Scales.findDuplicateArray($scope.orgNoteNum);
+
+        $timeout(function () {
+            listen = mf.player();
+            // console.log(listen);
+            listen.onEvent = _onPlayer;
+
+            _displayMidiFile(mf);
+            _setKeyNote();
+            $scope.$emit('endLoading');
+        });
+    };
+
+    var _setKeyNote = function () {
+        var btwNoteWigth = 49,
+            note = $scope.note;
+
+        $scope.keyNote = [];
+
+        var lastNote = _setLastNote($scope.orgNoteNum, $scope.note),
+            inScale = Scales.pattern($scope.orgNoteNum),
+            dfPosition = 0;
+
+        // console.log('lastNote: ', lastNote);
+
+        // console.log('$scope.orgNoteNum: ', $scope.orgNoteNum);
+        
+        for (var i = 2; i < 10; i++) {
+            for (var n in note) {
+                var scaleNote = 0;
+
+                if (lastNote === note[n] + i) { 
+                    dfPosition = btwNoteWigth; 
+                }
+
+                if (typeof inScale !== 'undefined') {
+                    /*for (var half in inScale.halfNotes) {
+                        if (inScale.halfNotes[half] === note[n]) {
+                            scaleNote = 2;
+                        }
+                    }
+
+                    if (inScale.scale === note[n]) {
+                        scaleNote = 1;
+                    }*/
+
+                    for (var nt in inScale.notes) {
+                        if (inScale.notes[nt].key === note[n]) {
+                            scaleNote = inScale.notes[nt].type;
+                        }
+                    }
+                }
+
+
+                $scope.keyNote.push({ note: note[n], oct: i, active: 0, scaleNote: scaleNote, position: btwNoteWigth });
+
+                btwNoteWigth += 49
+            }
+        }
+
+        for (var i = 0; i < 5; i++) {
+            $scope.boardLine.push($scope.keyNote);
+        }
+
+        $timeout(function () {
+            _tableScrolling(parseInt(dfPosition) - 49*6 );
+        });
+    };
+
+    var _noteToString = function (b) {
+        var note = $scope.note[b % 12] + Math.floor(b / 12);
+        return note;
+    };
+
+    var _setLastNote = function (ln, arrNote) {
+        var lastNote = ln.pop();
+
+        return arrNote[lastNote%12] + Math.floor(lastNote / 12);
+    };
+
+    var _displayMidiFile = function (mf){
+        var bars = [];
+        ppqn = mf.ppqn;
+
+        for (var i=0; i < mf.length; i++) {
+            if (mf[i] instanceof JZZ_.MidiFile.MTrk) {
+                if (mf[i][0].data === 'practice') {
+                    for (var j = 0; j < mf[i].length; j++) {
+                        var evt = mf[i][j],
+                            s = evt.toString().replace(/&/g,'&amp;').replace(/>/g,'&gt;').replace(/</g,'&lt;'),
+                            midiNote = _prepareNote(s, 'noteOn'), 
+                            msg = _prepareNote(s);
+
+                        bars.push(evt.time);
+
+                        // get tempo
+                        if (/ff51 Tempo/g.test(s)) {
+                            $scope.tempo = s.split(':').pop().match(/\d+/)[0];
+                        }
+
+                        if (Object.keys(msg).length > 0) {
+                            midArray.push({ timing: evt.time, msg: msg });
+                        }
+                        
+                        if (typeof midiNote !== 'undefined') {
+                            $scope.orgNote.push({ note: _noteToString(midiNote[1]) });
+                            $scope.orgNoteNum.push(midiNote[1]);
+                        }
+                    }
+                }
+
+                // for (var j = 0; j < mf[i].length; j++) {
+                //     var evt = mf[i][j],
+                //         s = evt.toString().replace(/&/g,'&amp;').replace(/>/g,'&gt;').replace(/</g,'&lt;'),
+                //         msg = _prepareNote(s);
+
+                //     bars.push(evt.time);
+
+                //     // get tempo
+                //     if (/ff51 Tempo/g.test(s)) {
+                //         $scope.tempo = s.split(':').pop().match(/\d+/)[0];
+                //     }
+
+                //     if (Object.keys(msg).length > 0) {
+                //         console.log(msg);
+                //         midArray.push({ timing: evt.time, msg: msg });
+                //     }
+                // }
+            }
+        }
+        
+        $scope.bars = Math.floor((bars.pop()/ppqn)/4); // 4 = 4/4
+        console.log('bars: ', $scope.bars);
+    };
+
+    var _prepareNote = function (s, opt) {
+        var arr = s.split(' '), 
+            rs = [];
+
+        if (typeof opt === 'undefined' || (typeof opt !== 'undefined' && opt === 'all')) {
+            if (s.match(/Note On/g)) {
+                for (var i in arr) {
+                    if (arr[i] != '--' && arr[i] != 'Note' && arr[i] != 'On') {
+                        rs.push(parseInt(arr[i], 16));
+                    }
+                }
+            } else if (s.match(/Note Off/g)) {
+                for (var i in arr) {
+                    if (arr[i] != '--' && arr[i] != 'Note' && arr[i] != 'Off') {
+                        rs.push(parseInt(arr[i], 16));
+                    }
+                }
+            }
+        } else if (typeof opt !== 'undefined' && opt === 'noteOn') {
+            if (s.match(/Note On/g)) {
+                for (var i in arr) {
+                    if (arr[i] != '--' && arr[i] != 'Note' && arr[i] != 'On') {
+                        rs.push(parseInt(arr[i], 16));
+                    }
+                }
+            }
+        } else if (typeof opt !== 'undefined' && opt === 'noteOff') {
+            if (s.match(/Note Off/g)) {
+                for (var i in arr) {
+                    if (arr[i] != '--' && arr[i] != 'Note' && arr[i] != 'Off') {
+                        rs.push(parseInt(arr[i], 16));
+                    }
+                }
+            }
+        }
+        
+        return rs;
+    };
+
+    var _onPlayer = function (e){
+        if (e.midi instanceof JZZ_.Midi) {
+            var midi = e.midi.array();
+
+            if ($scope.startBar !== 0 && $scope.endBar !== 0) {
+                console.log('1');
+                if (e.time >= $scope.startBar && e.time <= $scope.endBar) {
+                    console.log(e.time);
+
+                    if (e.time > $scope.endBar) {
+                        // for(var i = 0; i < 16; i++) port.send(0xb0 + i, 123, 0);
+                        // if (listen.playing) {
+                        //     listen.stop();
+                        // }
+                    } else {
+                        port.send(midi);
+                    }
+                } else {
+                    // listen.stop();
+                    listen.resume();
+                }
+            } else {
+                console.log('2');
+                port.send(midi);
+            }
+            
+            
+        }
+
+        if (e.control === 'play') {
+            $timeout(function () {
+                $scope.hearing = false;
+                $scope.pause = true;
+                $scope.resume = false;
+            });
+        } else if (e.control === 'stop') {
+            for(var i = 0; i < 16; i++) port.send(0xb0 + i, 123, 0); // port.send(0xb0 + i, 123, 0);
+                $timeout(function () {
+                    $scope.hearing = true;
+                    $scope.pause = false;
+                    $scope.resume = false;
+                });
+        } else if (e.control === 'pause') {
+            for (var i = 0; i < 16; i++) {
+                port.send(0xb0 + i, 123, 0);
+            }
+
+            $timeout(function () {
+                $scope.hearing = false;
+                $scope.pause = false;
+                $scope.resume = true;
+            });
+        } else if (e.control === 'resume') {
+            $timeout(function () {
+                $scope.hearing = false;
+                $scope.pause = true;
+                $scope.resume = false;
+            });
+        }
+    }
+
+    var _setListen = function () {
+        var newListen = [],
+            startBar = $scope.playBars.shift(),
+            endBar = (typeof $scope.playBars.pop() !== 'undefined')? $scope.playBars.pop(): startBar;
+
+        console.log('$scope.playBars: ', $scope.playBars);
+        console.log('bf ', mf);
+        startBar = Math.floor(ppqn*((startBar-1)*4));
+        endBar = Math.floor((ppqn*((endBar-1)*4)) + (ppqn*4));
+        console.log('af.startBar: ', startBar);
+        console.log('af.endBar: ', endBar);
+
+        for (var i = 0; i < mf.length; i++) {
+            if (mf[i] instanceof JZZ_.MidiFile.MTrk) {
+                var nj = [];
+                for (var j = 0; j < mf[i].length; j++) {
+                    var prop = mf[i][j];
+                    if (prop.time >= startBar && prop.time <= endBar) {
+                        nj.push(prop);
+                    } 
+                }
+                mf[i] = nj;
+
+            }
+        }
+
+        console.log('af ', mf);
+        listen = mf.player();
+        listen.onEvent = _onPlayer;
+
+        // for (var i in $scope.playBars) {
+        //     // var bar = $scope.playBars[i];
+
+        //     bar = Math.floor(ppqn*($scope.playBars[i]*4));
+
+        //     console.log('bar: ', bar);
+            
+            
+        // }
+
+
+            // newListen.fps = listen.fps;
+            // newListen.looped = listen.looped;
+            // newListen.onEvent = _onPlayer;
+            // newListen.playing = listen.playing;
+            // newListen.ppf = listen.ppf;
+            // newListen.ppqn = listen.ppqn;
+            // newListen.tracks = listen.tracks;
+
+            // newListen.loop = listen.loop();
+            // newListen.pause = listen.pause();
+            // newListen.play = listen.play();
+            // newListen.resume = listen.resume();
+            // newListen.stop = listen.stop();
+            // newListen.tick  = listen.tick();
+
+            // listen = newListen;
+            // listen.onEvent = _onPlayer;
+        // } catch (e) {
+        //     console.log('_setListen: ', e);
+        // }
+    };  
+
+    var _setBar = function (b) {
+        if ($filter('filter')($scope.playBars, b, true).length === 0) {
+            $scope.playBars.push(b);
+            $scope.playBars.sort();
+            
+            $scope.startBar = $scope.playBars.shift();
+            $scope.endBar = (typeof $scope.playBars.pop() !== 'undefined')? $scope.playBars.pop(): $scope.startBar;
+
+            $scope.startBar = Math.floor(ppqn*(($scope.startBar-1)*4));
+            $scope.endBar = Math.floor((ppqn*(($scope.endBar-1)*4)) + (ppqn*4));
+            // _setListen();
+        }
+    };
+
+    var _tableScrolling = function (position) {
+        document.getElementById('tbPlay').scrollLeft = position;
+        document.getElementById('tbBoard').scrollLeft = position;
+    }
+
+    
+
+    $scope.clickVisibleBar = function (visibleBar) {
+        $timeout(function () {
+            $scope.visibleBar = !visibleBar;
+        });
+    };
+
+    $scope.barRange = function (n) {
+        return new Array(n);
+    };
+
+    $scope.choseBar = function (b) {
+        var bar = $('#bar_' + b);
+
+        if (typeof bar.attr('active') === 'undefined') {
+            bar.css('background-color', '#03A9F4');
+            bar.attr('active', '1');
+            _setBar(b);
+        } else {
+            if ($scope.playBars.length > 0) {
+                $scope.playBars.splice($scope.playBars.indexOf(b), 1); 
+            }
+
+            bar.removeAttr('style');
+            bar.removeAttr('active');
+        }
+            
+    };
+
+
+
+    $scope.onListen = function (){
+        if ($scope.hearing === true) {
+            if (!listen) return;
+
+            if (listen.playing) {
+                listen.stop();
+            } else {
+                listen.play();
+            }
+        }
+    };
+
+
+
+    // $scope.stopFile = function (){
+    //     play.stop();
+    // };
+
+    $scope.onPause = function () {
+        if (listen.playing) {
+            listen.pause();
+        } else {
+            listen.resume();
+        };
+    };
+
+    if (typeof $routeParams !== 'undifined' && typeof $routeParams.ls_id !== 'undifined') {
+        Lesson.getLesson({ ls_id: $routeParams.ls_id }, function (lesson) {
+            $scope.lesson = lesson;
+            _pathFile($scope.lesson.ls_midi_path);
+
+            tbPlay = document.getElementById('tbPlay');
+            tbBoard = document.getElementById('tbBoard');
+
+            tbPlay.onscroll = function (e) {
+                tbBoard.scrollLeft = e.target.scrollLeft;
+            };
+
+            tbBoard.onscroll = function (e) {
+                tbPlay.scrollLeft = e.target.scrollLeft;
+            };
+        });
+    }
+    
+
+}]);
