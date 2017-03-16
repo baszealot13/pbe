@@ -1,0 +1,46 @@
+<style>
+.menu-icon, .menu-content {
+    float: left;
+}
+.menu-content {
+    margin-top: 9px;
+    margin-left: 10px;
+}
+.menu-icon-fab {
+    background: rgba(0, 0, 0, 0.25);
+    border-radius: 100%;
+    text-align: center;
+    line-height: 56px;
+    font-size: 20px;
+    color: white;
+    display: block;
+    width: 56px;
+    height: 56px;
+    margin-top: 20px !important;
+    padding-top: 4px;
+}
+</style>
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12">
+        <div class="menu-stacked unselectable">
+            <div ng-repeat="menu in menus | orderBy: orderBy">
+                <div class="{{::menu.kind}}" id="xs_grid_menu_{{::menu.title}}">
+                    <h5>
+                        <div class="stackedNavigator ellipsis" style="width:90%"  ng-if="menu.kind === 'document'" ng-click="goTo(menu.locationPath, menu)">
+                            <p class="menu-icon menu-icon-fab"><i class="material-icons">insert_drive_file</i></p>
+                            <p class="menu-content">{{menu.title}}</p>
+                        </div>
+
+                        <div class="stackedNavigator ellipsis" style="width:90%"  ng-if="menu.kind === 'directory'" ng-click="goTo(menu.locationPath, menu)">
+                            <p class="menu-icon menu-icon-fab"><i class="material-icons">apps</i></p>
+                            <p class="menu-content">{{menu.title}}</p>
+                        </div>
+                        <!-- <small class="actions" ng-if="menu.actions">
+                            <span ng-repeat="action in menu.actions" ng-click="goTo(action.locationPath, menu)"><u class="hand-cursor">{{action.title}}</u> {{$last ? '' : '/ '}}</span>
+                        </small> -->
+                    </h5>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

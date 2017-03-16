@@ -1,0 +1,63 @@
+<style type="text/css">
+#midi {
+    font-family:Courier New, monospace;
+    background-color:#eef;
+    border:none;
+    padding:0.2em;
+}
+#midi div {
+    border:double;
+    margin:0.2em;
+}
+#midi div div {
+    border:none;
+}
+#midi div div.hdr {
+    font-weight:bold;
+    border:none;
+}
+#midi span.clk {
+    width:15em;
+    padding:0 0.5em;
+    text-align:right;
+    display:inline-block;
+    background-color:#ddd;
+}
+#midi .wait {
+    padding:.2em;
+    font-size:1.5em;
+    font-weight:bold;
+    color:#888;
+}
+#midi .err {
+    padding:.5em;
+    font-size:1.2em;
+    font-weight:bold;
+    color:#d00;
+}
+</style>
+
+<h1>{{title}} <small>Jzz MIDI</small></h1>
+
+<!-- <a href="javascript:void(0)" class="btn btn-raised btn-danger"
+    ng-mousedown="play(60)"   
+    ng-mouseup="stop()">C</a>
+
+<a href="javascript:void(0)" class="btn btn-raised btn-danger"
+    ng-mousedown="play(62)"   
+    ng-mouseup="stop()">D</a> -->
+
+<a href="javascript:void(0)" id="playBtn" class="btn btn-raised btn-danger"
+    ng-click="playFile()" ng-disabled="playDisabled"><i class="material-icons">play_arrow</i></a>
+
+<a href="javascript:void(0)" id="pauseBtn" class="btn btn-raised btn-danger"
+    ng-click="pauseFile()">
+        <i class="material-icons" ng-hide="pauseDisabled">pause</i>
+        <i class="material-icons" ng-show="pauseDisabled">pause_circle_filled</i>
+    </a>
+
+<a href="javascript:void(0)" id="stopBtn" class="btn btn-raised btn-danger"
+    ng-click="stopFile()" ng-disabled="stopDisabled"><i class="material-icons">stop</i></a>
+
+
+<div id="midi"></div>

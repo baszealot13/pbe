@@ -1,0 +1,7 @@
+<ul class="breadcrumb">
+    <li ng-repeat="path in items track by $index"
+        ng-class="{'active': ($index===(items.length-1))}">
+        <a ng-if="$index!==(items.length-1)" href="javascript:void(0)" ng-click="$root.redirectTo(path.locationPath)">{{::path.title}}</a>
+        <span ng-if="$index===(items.length-1)">{{::path.title}}</span>
+    </li>
+</ul>

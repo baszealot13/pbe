@@ -1,0 +1,9 @@
+<label for="{{name}}" class="col-xs-12 col-sm-3 col-md-3 control-label">
+    {{label}}
+</label>
+<div class="col-xs-12 col-sm-9 col-md-9">
+    <select ng-model="ngModel" id="{{name}}" name="{{name}}" class="form-control" ng-options="item.id as item.text for item in options.data">
+        <!-- <option value="">{{placeholder}}</option>
+        <option ng-repeat="item in options.data" value="{{item.id}}">{{item.text}}</option> -->
+    </select>
+</div>

@@ -1,0 +1,80 @@
+<h1>
+    {{ title }}
+    <small>
+        Component
+    </small>
+</h1>
+<div class="row">
+    <div class="col-sm-6 col-md-6">
+        <div class="well">
+            <form class="form-horizontal">
+                <fieldset>
+                    <legend>
+                        Legend
+                    </legend>
+                    <div class="form-group">
+                        <dt-text-box ng-model="inputEmail" label="Email" name="inputEmail" options="{placeHolder: 'Fill your Email'}"></dt-text-box>
+                        <div class="col-md-offset-2 col-md-10">{{inputEmail}}</div>
+                    </div>
+                    <div class="form-group">
+                        <dt-password ng-model="inputPassword" label="Password" name="inputPassword" options="{placeHolder: 'Fill your Password'}"></dt-password>
+                        <div class="col-md-offset-2 col-md-10">{{inputPassword}}</div>
+                    </div>
+                    <div class="form-group" style="margin-top: 0;">
+                        <div class="col-md-offset-2 col-md-10">
+                            <dt-check-box ng-model="checkbox" label="Checkbox" name="Checkbox"></dt-check-box>{{checkbox}}
+                            <dt-check-box ng-model="checkboxDis" label="Checkbox Disabled" name="CheckboxDisabled" disabled="true"></dt-check-box>{{checkboxDis}}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <dt-toggle ng-model="ToggleButton" label="Toggle button" name="ToggleButton"></dt-toggle>{{ToggleButton}}
+                            <dt-toggle ng-model="ToggleButtonDis" label="Toggle button disabled" name="ToggleButtonDis" disabled="true"></dt-toggle>{{ToggleButtonDis}}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <dt-file-upload ng-model="fileUpload" label="File" name="fileUpload" options="{type:['mid']}"></dt-file-upload>
+                        <div class="col-md-offset-2 col-md-10">{{fileUpload}}</div>
+                    </div>
+                    <!-- <div class="form-group">
+                        <label for="textArea" class="col-md-2 control-label">
+                            Textarea
+                        </label>
+                        <div class="col-md-10">
+                            <textarea class="form-control" rows="3" id="textArea"></textarea>
+                            <span class="help-block">
+                                A longer block of help text that breaks onto a new line and may extend beyond one line.
+                            </span>
+                        </div>
+                    </div> -->
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">
+                            Radios
+                        </label>
+                        <div class="col-md-10">
+                            <dt-radio-group ng-model="radioGroup" name="optionsRadios" 
+                                options="[{label:'Option one is this', id:'optionsRadios1', value:'1' },
+                                    {label:'Option two can be something else', id:'optionsRadios2', value:'2' }]"></dt-radio-group>
+                            {{radioGroup}}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <dt-select-box ng-model="selectBox" label="SelectBox" placeholder="Select data" 
+                            options="{data: [{id:'1', text: 'item 1'},
+                                            {id:'2', text: 'item 2'},
+                                            {id:'3', text: 'item 3'},
+                                            {id:'4', text: 'item 4'},
+                                            {id:'5', text: 'item 5'}]}"></dt-select-box>
+                        <div class="col-md-offset-2 col-md-10">{{selectBox}}</div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-10 col-md-offset-2">
+                            <button type="button" class="btn btn-default">Cancel</button>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</div>

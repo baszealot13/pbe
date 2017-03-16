@@ -1,0 +1,33 @@
+<table class="table table-hover table-condensed">
+    <thead>
+        <tr>
+            <th ng-repeat="column in tHeader" ng-class="{'table-column-checkbox':(column.component.type==='checkbox')}">{{column.name}}</th>
+            <th ng-if="(options!==undefined && options.tools!==undefined)" 
+                class="table-column-tools"><i class="material-icons">more_vert</i></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr dir-paginate="row in tBody | itemsPerPage: 10 track by $index">
+            <td ng-repeat="column in tHeader" ng-if="column.component===undefined">
+                <span ng-if="column.action===undefined">{{row[column.id]}}</span>
+                <a ng-if="column.action!==undefined&&column.action.type==='function'" 
+                    href="" ng-click="openForm(row[column.action.param])">{{row[column.id]}}</a>
+            </td>
+            <td ng-repeat="column in tHeader" ng-if="column.component!==undefined"
+                ng-class="{'table-column-checkbox':(column.component.type==='checkbox')}">
+                <dt-check-box ng-if="column.component.type==='checkbox'" ng-model="row[column.id]" name="{{row[column.id]}}_{{$index}}" disabled="true"></dt-check-box>
+            </td>
+            <td ng-if="(options!==undefined && options.tools!==undefined)"  class="table-column-tools">
+                <ul>
+                    <li ng-repeat="tool in options.tools">
+                        <a ng-if="tool.type==='delete'" href="" ng-click="delete(row[tool.action.param])"><i class="material-icons">{{tool.icon}}</i></a>
+                        <a ng-if="tool.type==='edit'" href="" ng-click="openForm(row[tool.action.param])"><i class="material-icons">{{tool.icon}}</i></a>
+                    </li>
+                </ul>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<div class="text-center">
+    <dir-pagination-controls template-url="partials/directives/PaginationTemplate.html"></dir-pagination-controls>
+</div>

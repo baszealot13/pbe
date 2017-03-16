@@ -1,0 +1,12 @@
+<label for="{{name}}" class="col-xs-12 col-sm-3 col-md-3 text-left control-label">
+    {{label}}
+</label>
+
+<div class="input-group">
+    <input type="text" class="form-control" ng-model="ngModel" name="{{name}}" id="{{name}}"/>
+    <span class="input-group-btn input-group-xs">
+        <button type="button" class="btn btn-fab btn-fab-super-mini" ng-click="clear()">
+            <i class="material-icons small">clear</i>
+        </button>
+    </span>
+</div>

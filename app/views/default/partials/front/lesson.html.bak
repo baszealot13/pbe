@@ -1,0 +1,184 @@
+<h4>{{lesson.ls_title}}</h4>
+<style>
+ul.bar {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: transparent;
+    border: 1px dotted #F5F5F5;
+}
+
+.bar li {
+    float: left;
+    margin: 1px;
+    padding: 1px;
+    margin-bottom: 6px;
+}
+
+.bar li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    border: 1px solid #78909C;
+    /*background-color: #03A9F4;*/
+}
+
+.bar li a:hover {
+    background-color: transparent;
+}
+
+.pbe-note {
+  border-radius: 50%;
+  -webkit-transform: translate(-12px, -12px);
+      -ms-transform: translate(-12px, -12px);
+       -o-transform: translate(-12px, -12px);
+          transform: translate(-12px, -12px);
+  line-height: 50px;
+  width: 60px !important; 
+  padding: 15px;
+  background-color: transparent;
+  /*background-color: #03a9f4;*/
+}
+.pbe-note-root {
+    background-color: #f8bbd0;
+}
+.pbe-note-scale {
+    background-color: #b2dfdb;
+}
+.pbe-note-half {
+    background-color: #b2ebf2;
+}
+
+.pbe-keyboard {
+    opacity: 0.8;
+    filter: alpha(opacity=80);
+}
+
+.pbe-keyboard-white {
+    background: url('images/kb_white.png') no-repeat;
+    background-size: 100% 100%;
+}
+.pbe-keyboard-black {
+    background: url('images/kb_black.png') no-repeat;
+    background-size: 100% 100%;
+}
+.pbe-keyboard-half {
+    background: url('images/kb_half.png') no-repeat;
+    background-size: 100% 100%;
+}
+
+.bg-bar {
+    background: #b3e5fc;
+}
+/*.bar li a:active {
+    background-color: #03A9F4;
+}*/
+/*background-color: #FFF59D;*/
+</style>
+
+<uib-accordion>
+    <div uib-accordion-group class="panel-default" is-open="setting">
+        <uib-accordion-heading>
+            <p class="text-right no-margin"><i class="material-icons">tune</i></p>
+        </uib-accordion-heading>
+        
+        <div class="row">
+            <div class="col-xs-12 col-sm-2 col-md-1">
+                <dt-check-box ng-model="playAll" label="Play All" name="playAll" ng-click="clickVisibleBar(visibleBar)">
+            </div>
+
+            <div class="col-xs-12 col-sm-2 col-md-1">
+                <dt-check-box ng-model="loop" label="Loop" name="loop">
+            </div>
+
+            <div class="col-xs-12 col-sm-2 col-md-2">
+                <dt-check-box ng-model="checkTiming" label="Check Timing" name="checkTiming">
+            </div>
+        </div>
+
+        <ul class="bar" ng-show="visibleBar">
+            <li ng-repeat="bar in barRange(bars) track by $index">
+                <a href="" ng-click="choseBar($index+1)" id="bar_{{$index+1}}"></a>
+            </li>
+        </ul>
+
+    </div><!-- uib-accordion-group -->
+</uib>
+
+<div class="row form-group">
+    <div class="col-xs-12 col-sm-12 col-md-12">
+        <div id="tbPlay" class="table-responsive" ><!-- onscroll="angular.element(this).scope.onScrolling()" -->
+            <table class="table bs-component btn-group-sm">
+                <thead>
+                    <tr>
+                        <th ng-repeat="key in keyNote" class="text-center" notePosit="{{key.position}}">
+                            <span class="pbe-note" id="span{{key.note + key.oct}}" 
+                                ng-class="{
+                                    'pbe-note-root': (key.scaleNote===1), 
+                                    'pbe-note-scale': (key.scaleNote===2),
+                                    'pbe-note-half': (key.scaleNote===3)}">{{key.note + key.oct}}</span>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td ng-repeat="key in keyNote" id="{{key.note + key.oct}}" 
+                            class="text-center pbe-keyboard" 
+                            height="90" 
+                            notePosit="{{key.position}}"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="row form-group">
+    <div id="board" class="col-xs-12 col-sm-12 col-md-12" style="background-color: #fff; height: 220px; overflow-y: auto;">
+        <div id="tbBoard" class="table-responsive"><!-- onscroll="angular.element(this).scope.onScrolling()" -->
+            <table class="table bs-component btn-group-sm" id="table_board"> <!-- table-bordered -->
+                <thead style="display:">
+                    <tr>
+                        <th ng-repeat="key in keyNote" class="text-center text-muted"><span style="width: 60px !important; padding: 15px;">{{key.note + key.oct}}</span></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="line in boardLine track by $index">
+                        <td ng-repeat="key in keyNote" id="board_{{key.note + key.oct}}" class="text-center no-padding" height="48" notePosit="{{key.position}}">
+                            <a href="javascript:void(0)" ng-if="line[$index].active===1" class="btn btn-success btn-fab">
+                                <i class="material-icons">mood</i>
+                            </a>
+                            <a href="javascript:void(0)" ng-if="line[$index].active===2" class="btn btn-warning btn-fab">
+                                <i class="material-icons">mood_bad</i>
+                            </a>
+                            <p ng-if="line[$index].active===0" ng-class="{'line-to':(line[$index].noteFrom===1), 'arrow-right':(line[$index].noteFrom===2), 'arrow-left':(line[$index].noteFrom===3)}"></p>
+                           
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<nav class="navbar navbar-fixed-bottom nav-bottom">
+    <div class="col-xs-12 col-sm-12 col-md-12">
+        <div class="text-right">
+            <button ng-if="hearing" class="btn btn-danger btn-fab animate-show" id="btnPlay" ng-click="onListen()">
+                <i class="material-icons">hearing</i>
+            </button>
+
+            <button ng-if="(pause=== true || resume===true)" class="btn btn-danger btn-fab animate-show" id="btnPlay" ng-click="onPause()">
+                <i ng-if="pause" class="material-icons">pause</i>
+                <i ng-if="resume" class="material-icons">play_arrow</i>
+            </button>
+        </div>
+    </div>
+</nav> 
+
+
+
+

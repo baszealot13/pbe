@@ -1,0 +1,56 @@
+<dt-breadcrum items="Breadcrumb"></dt-breadcrum>
+
+<div class="well well-sm">
+    <div class="row form-group no-margin">
+        <div class="col-xs-12 col-sm-12 col-md-12 text-right">
+            <a href="" class="btn btn-raised btn-info" ng-click="openForm()">
+                New
+            </a>
+        </div>    
+    </div>
+
+    <dt-search-box search-columns="searchColumns" searches="searches"></dt-search-box>
+    
+    <dt-table-listing t-header="listing.tHeader" t-body="listing.tBody" options="listing.options" open-form="openForm" delete="delete"></dt-table-listing>
+</div>
+
+
+<div class="modal fade" id="lessonModal" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">{{modalTitle}}</h4>
+            </div>
+
+            <div class="modal-body">
+                <div class="form-group">
+                    <dt-text-box ng-model="lessonData.ls_title" label="Title" name="title"></dt-text-box>
+                </div>
+                <div class="form-group">
+                    <dt-text-box ng-model="lessonData.ls_description" label="Description" name="description"></dt-text-box>
+                </div>
+                <div class="form-group">
+                    <dt-select-box ng-model="lessonData.ls_lsg_id" label="Group" options="lessonGroupOptions"></dt-select-box>
+                </div>
+                <div class="form-group">
+                    <dt-file-upload ng-model="lessonData.ls_midi_path" label="File (*.Mid, *.Midi)" name="ls_midi_path" options="{types:['mid','midi']}"></dt-file-upload>
+                </div>
+                <div class="form-group">
+                    <dt-file-upload ng-model="lessonData.ls_mpeg_path" label="File (*.mp3)" name="ls_mpeg_path" options="{types:['mp3']}"></dt-file-upload>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <dt-check-box ng-model="lessonData.ls_active" label="Active" name="active"></dt-check-box>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" ng-if="isNew===true" class="btn btn-raised btn-success" ng-click="create(lessonData)">Create</button>
+                <button type="button" ng-if="isNew===false" class="btn btn-raised btn-success" ng-click="update(lessonData)">Edit</button>
+            </div>
+        </div>
+    </div>
+</div>

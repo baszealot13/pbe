@@ -1,0 +1,31 @@
+<!-- <h4>{{lsgName}}</h4> -->
+
+<!-- <ul class="breadcrumb">
+  <li><a href="javascript:void(0)" ng-click="$root.redirectTo()"><i class="material-icons small">home</i></a></li>
+  <li class="active">{{lsgName}}</li>
+</ul> -->
+
+<!-- <div class="well well-sm" ng-repeat="row in lessonList" ng-click="$root.redirectTo('/Lesson', row.ls_id)">
+    <a href="javascript:void(0)">
+        {{row.ls_title}}
+    </a>
+</div> -->
+
+<div class="well well-sm">
+    <table class="table table-hover table-condensed table-front">
+        <thead>
+            <tr>
+                <th><a href="#/" style="text-decoration: none; color: #424242;"><i class="material-icons">arrow_back</i></a> {{lsgName}}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="row in lessonList" ng-click="$root.redirectTo('/Lesson', row.ls_id)">
+                <td>
+                    <a href="javascript:void(0)">
+                        {{row.ls_title}}
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

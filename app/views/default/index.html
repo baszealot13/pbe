@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html ng-app="app">
+    <head>
+        <meta charset="utf-8"/>
+        <meta http-equiv="X-UA-Compatible" content="requiresActiveX=true"/>
+        <title>Play by Ear</title>
+        <link rel="stylesheet" href="lib/all.css"/>
+        <link rel="Shortcut Icon" href="../images/logo.jpg" type="image/x-icon"/>
+        <script src="lib/JZZ.Midi.js"></script>
+        <script src="lib/JZZ.MidiFile.js"></script>
+
+       <!--  <script src="lib/Base64.js" type="text/javascript"></script>
+        <script src="lib/Base64binary.js" type="text/javascript"></script>
+        <script src="lib/WebAudioAPI.js" type="text/javascript"></script>
+        <script src="lib/WebMIDIAPI.js" type="text/javascript"></script>
+
+        <script src="lib/stream.js"></script>
+        <script src="lib/midifile.js"></script>
+        <script src="lib/replayer.js"></script>
+
+        <script src="lib/MIDI.js"></script> -->
+        <script src="cordova.js"></script>
+    </head>
+    <body >
+        <div id="wrapper">
+<style>
+ul.sub-side {
+    list-style-type: none;
+    margin: 0;
+    padding-left: 10px;
+}
+
+ul.sub-side > li a {
+    display: block;
+}
+</style>
+            <div id="sidebar-wrapper" ng-if="$root.requireUI">
+                <ul class="sidebar-nav">
+                    <li class="sidebar-brand">
+                        <img src="images/logo.jpg" class="img-circle">
+                    </li>
+                
+                    <dt-sidebar items="$root.sidebar"></dt-sidebar>
+                </ul>
+            </div>
+
+         
+             <div id="page-content-wrapper">
+                
+                <div class="navbar navbar-default" ng-if="$root.requireUI">
+                    <div class="container-fluid">
+                        <div class="navbar-header">
+                            <a class="navbar-brand" href="javascript:void(0)" id="sidebar-toggle" ng-click="$root.sideBarToggle($event)">
+                                <!-- <span class="glyphicon glyphicon-menu-hamburger"></span> -->
+                                <i class="material-icons">reorder</i>
+                            </a>
+
+                            <!-- <img src="images/logo.jpg" class="img-circle" style=""> -->
+                        </div>
+
+                        <div class="navbar-collapse collapse navbar-responsive-collapse">
+                            <ul class="nav navbar-nav" ng-if="$root.requireUI">
+                                <li ng-repeat="nav in navMenu" class="dropdown">
+                                    <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">
+                                        {{nav.title}}
+                                        <span ng-if="nav.dropdown" class="caret"></span>
+                                    </a>
+                                    <ul ng-if="nav.menus" class="dropdown-menu">
+                                        <li ng-repeat="menu in nav.menus" ng-class="menu.cssClass">
+                                            <a href="javascript:void(0)" ng-click="$root.redirectTo(menu.locationPath);">{{menu.title}}</a>
+                                        </li>
+                                    </ul>
+                                </li>
+
+                            </ul>
+
+                            <!-- <ul class="nav navbar-nav navbar-right" ng-if="$root.midiSettingMenu===true">
+                                <li>
+                                    <a href="javascript:void(0)" ng-click="$root.midiSetting=!$root.midiSetting">
+                                        <i class="material-icons">tune</i>
+                                    </a>
+                                </li>
+                            </ul> -->
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="container-fluid">
+                    <div ng-view></div>
+                </div>
+            </div>
+
+            <!-- <nav class="navbar navbar-fixed-bottom nav-bottom" ng-if="$root.navBottom">
+                <div class="col-xs-12 col-sm-12 col-md-12">
+                    <div class="text-right">
+                        <a href="javascript:void(0)" class="btn btn-danger btn-fab"><i class="material-icons">hearing</i></a>
+                        <a href="javascript:void(0)" class="btn btn-danger btn-fab"><i class="material-icons">play_arrow</i></a>
+                        <a href="javascript:void(0)" class="btn btn-danger btn-fab"><i class="material-icons">skip_next</i></a>
+                    </div>
+                </div>
+            </nav> -->
+        </div>
+        <dt-progress-bar></dt-progress-bar>
+        <script src="lib/all.js"></script>
+        <script src="lib/pbe.min.js"></script>
+        <script>
+         $(function() {
+            $.material.init();
+            // setTimeout(function() {$("#wrapper").toggleClass("toggled");}, 2000);
+        });
+        </script>
+    </body>
+</html>

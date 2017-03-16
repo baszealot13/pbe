@@ -1,0 +1,7 @@
+<div class="radio radio-primary" ng-repeat="item in options">
+    <label>
+        <input type="radio" name="{{name}}" id="item.id" value="item.value" ng-click="chooseOption(this.item.value)"/>
+            <span class="circle"></span><span class="check"></span>
+            {{item.label}}
+    </label>
+</div>

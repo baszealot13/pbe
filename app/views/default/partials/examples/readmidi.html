@@ -1,0 +1,50 @@
+<h1>{{title}} <small>Read MIDI</small></h1>
+
+<div id="note_list"></div>
+
+<div class="well">
+    <div class="row">
+        <label class="col-md-3">TEMPO</label>
+        <div class="col-md-9">{{mid.tempo}}</div>
+    </div>
+    <!-- <div class="row">
+        <label class="col-md-3">BPS</label>
+        <div class="col-md-9">{{mid.bps}}</div>
+    </div> -->
+    <div class="row">
+        <label class="col-md-3">PPQN</label>
+        <div class="col-md-9">{{mid.ppqn}}</div>
+    </div>
+    
+    <div class="row">
+        <label class="col-md-3">PPQ/BARS</label>
+        <div class="col-md-9">{{mid.ppqPerBars}}</div>
+    </div>
+    <div class="row">
+        <label class="col-md-3">NUMBERATION/DENOMINATOR</label>
+        <div class="col-md-9">{{mid.numerator}}/{{mid.denominator}}</div>
+    </div>
+</div>
+
+<table class="table table-striped table-hover">
+    <thead>
+        <tr>
+            <th>Track</th>
+            <th>DeltaTime</th>
+            <th>Time</th>
+            <th>Status</th>
+            <th>Note</th>
+            <th>Velocity</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="row in mid.lists">
+            <td>{{row.track}}</td>
+            <td>{{row.deltaTime}}</td>
+            <td>{{row.time}}</td>
+            <td>{{row.status}}</td>
+            <td>{{row.noteText}}</td>
+            <td>{{row.velocity}}</td>
+        </tr>
+    </tbody>
+</table>

@@ -1,0 +1,4 @@
+<li class="withripple" ng-repeat="menu in items">
+    <a href="" ng-click="$root.redirectTo(menu.path)" ng-if="menu.name!=='Logout'">{{::menu.name}}</a>
+    <a href="" ng-click="$root.logout()" ng-if="menu.name==='Logout'">{{::menu.name}}</a>
+</li>

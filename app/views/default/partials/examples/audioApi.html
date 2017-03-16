@@ -1,0 +1,17 @@
+<h1>{{title}} <small>Audio Web API</small></h1>
+
+<a href="" class="btn btn-raised" ng-click="play()" ng-class="{'btn-danger': (playing===false), 'btn-info': (playing===true)}">
+    <i class="material-icons">play_arrow</i>
+</a>
+<a href="" class="btn btn-raised" ng-click="pause()" ng-class="{'btn-danger': (pausing===false), 'btn-info': (pausing===true)}">
+    <i class="material-icons" ng-disabled="pausing">pause</i>
+</a>
+<a href="" class="btn btn-raised btn-danger" ng-click="stop()">
+    <i class="material-icons">stop</i>
+</a>
+
+<dt-toggle ng-model="tgLoop" label="Loop" name="tgLoop"></dt-toggle>
+
+<div>
+    {{currentTime}} / {{durationTime}}
+</div>

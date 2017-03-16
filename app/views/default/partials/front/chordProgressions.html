@@ -1,0 +1,112 @@
+<div id="chordProgressions1" ng-show="chordProgressions1">
+    <h1>Chord Progressions Quiz</h1>
+
+    <div class="row">
+        <div class="col-xs-12 col-sm-5 col-md-5">
+            <dt-select-box ng-model="chords" label="Chords" options="chordsOptions"></dt-select-box>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12 col-sm-5 col-md-5 text-right">
+            <button type="button" ng-click="chooseChords()" class="btn btn-raised btn-danger">Start Quiz</button>
+        </div>
+    </div>
+
+</div>
+
+<div id="chordProgressions2" ng-show="chordProgressions2">
+    <h1>Chord Progressions Quiz <small>{{chordsTitle}}</small></h1>
+
+    <div class="row">
+        <div class="col-xs-8 col-sm-8 col-md-8">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 text-center">
+                    <div class="bs-component">
+                        <div class="progress progress-striped active">
+                            <div class="progress-bar progress-bar-info" style="width: {{progress}}%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 text-center">
+                    {{progress}} of {{countQuiz}} correct
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 text-center">
+                    <button type="button" id="btnHear" class="btn btn-raised btn-info" ng-click="hearQuestion()" ng-disabled="hearDisabled">{{hear}}</button>
+                    <button type="button" id="btnHearNext" class="btn btn-raised btn-default" ng-show="displayNextBtn" ng-click="nextQuest()" ng-disabled="hearDisabled">Hear Next</button>
+                </div>
+            </div><br/>
+
+            <div class="row" ng-show="startQuiz">
+                <div class="col-xs-2 col-sm-2 col-md-2 col-xs-offset-1 col-sm-offset-1 col-md-offset-1"><strong>Chord 1:</strong></div>
+                <div class="col-xs-9 col-sm-9 col-md-9">Chord 1 in this exercise is always I, the tonic chord.</div>
+            </div><br/><br/>
+
+            <div class="row" ng-show="startQuiz">
+                <div class="col-xs-2 col-sm-2 col-md-2 col-xs-offset-1 col-sm-offset-1 col-md-offset-1"><strong>Chord 2:</strong></div>
+                <div class="col-xs-9 col-sm-9 col-md-9">
+                    <a ng-repeat="choice2 in choices2" class="btn btn-raised" ng-class="{'btn-info': (choice2.active===false), 'btn-success': (choice2.active===true && choice2.correct===true), 'btn-danger': (choice2.active===true && choice2.correct===false)}" ng-click="checkChord(2, choice2)">{{choice2.text}}</a>
+                </div>
+            </div><br/>
+
+            <div class="row" ng-show="startQuiz">
+                <div class="col-xs-2 col-sm-2 col-md-2 col-xs-offset-1 col-sm-offset-1 col-md-offset-1"><strong>Chord 3:</strong></div>
+                <div class="col-xs-9 col-sm-9 col-md-9">
+                    <a ng-repeat="choice3 in choices3" class="btn btn-raised" ng-class="{'btn-info': (choice3.active===false), 'btn-success': (choice3.active===true && choice3.correct===true), 'btn-danger': (choice3.active===true && choice3.correct===false)}" ng-click="checkChord(3, choice3)">{{choice3.text}}</a>
+                </div>
+            </div><br/>
+
+            <div class="row" ng-show="startQuiz">
+                <div class="col-xs-2 col-sm-2 col-md-2 col-xs-offset-1 col-sm-offset-1 col-md-offset-1"><strong>Chord 4:</strong></div>
+                <div class="col-xs-9 col-sm-9 col-md-9">
+                    <a ng-repeat="choice4 in choices4" class="btn btn-raised" ng-class="{'btn-info': (choice4.active===false), 'btn-success': (choice4.active===true && choice4.correct===true), 'btn-danger': (choice4.active===true && choice4.correct===false)}" ng-click="checkChord(4, choice4)">{{choice4.text}}</a>
+                </div>
+            </div>
+            
+        </div>
+
+        <div class="col-xs-4 col-sm-4 col-md-4">
+            <div class="well well-sm">
+                <h3>Chords</h3>
+                <div class="row">
+                    <div class="col-xs-6 col-sm-6 col-md-6">
+                        <a ng-repeat="chordTriads in chordProgression.triads" class="btn btn-raised btn-block" ng-class="{'btn-default': !chordTriads.active, 'btn-info': chordTriads.active}" ng-click="chordTriads.active=!chordTriads.active">{{chordTriads.text}}</a>
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md-6">
+                        <a ng-repeat="chordSevenths in chordProgression.sevenths" class="btn btn-raised btn-block" ng-class="{'btn-default': !chordSevenths.active, 'btn-info': chordSevenths.active}" ng-click="chordSevenths.active=!chordSevenths.active">{{chordSevenths.text}}</a>
+                    </div>
+                </div>
+
+                <h3>Speed</h3>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12">
+                        <div class="btn-group btn-group-justified btn-group-raised">
+                            <a href="" class="btn" ng-class="{'btn-raised btn-info': slowSpeed}" ng-click="speedChange('slowSpeed')">Slow</a>
+                            <a href="" class="btn" ng-class="{'btn-raised btn-info': mediumSpeed}" ng-click="speedChange('mediumSpeed')">Medium</a>
+                            <a href="" class="btn" ng-class="{'btn-raised btn-info': fastSpeed}" ng-click="speedChange('fastSpeed')">Fast</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12">
+            <button type="button" ng-click="endQuiz()" class="btn btn-raised btn-default">End Quiz</button>
+        </div>
+    </div>
+
+
+</div>
+
+<div id="chordProgressions3" ng-show="chordProgressions3">
+    <h1>Finished!</h1>
+</div>

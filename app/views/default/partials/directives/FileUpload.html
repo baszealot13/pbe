@@ -1,0 +1,109 @@
+<style>
+.fileUpload {
+    position: relative;
+    overflow: hidden;
+}
+
+.fileUpload input.upload {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+    cursor: pointer;
+    opacity: 0;
+    filter: alpha(opacity=0);
+}
+</style>
+
+<label for="inputFile" class="col-xs-12 col-sm-3 col-md-3 text-left control-label">
+    {{label}}
+</label>
+
+<div class="input-group">
+    <input style="display: none" type="text" name="{{name}}" ng-model="ngModel">
+    <input class="form-control readonly" id="{{name}}_display" name="{{name}}_display" type="text" readonly/>
+    <span class="input-group-btn">
+
+        <div ng-if="emptyFile===false" class="fileUpload btn btn-default square">
+            <span class="glyphicon glyphicon-file-attachment">
+            </span>
+            <input onchange="angular.element(this).scope().getFileInfo(this)" id="{{name}}_upload_btn" name="{{name}}_upload_btn" type="file" class="upload"/>
+        </div>
+
+        <div class="fileUpload btn btn-fab btn-fab-super-mini" ng-if="removeFile===false">
+            <i class="material-icons small">attach_file</i>
+            <input type="file" name="{{name}}" id="{{name}}" onchange="angular.element(this).scope().getFileInfo(this)" class="upload"/>
+        </div>
+
+
+        <button type="button" class="btn btn-fab btn-fab-super-mini" ng-click="clear()" ng-if="removeFile===true">
+            <i class="material-icons small">clear</i>
+        </button>
+
+    </span>
+
+ <!--    <input type="file" name="{{name}}" id="{{name}}" onchange="angular.element(this).scope().getFileInfo(this)"/>
+    <input type="text" readonly ng-model="ngModel" class="form-control" name="{{name}}_display" placeholder="Browse..."/>
+
+    <span class="input-group-btn input-group-xs" ng-if="removeFile===true">
+        <button type="button" class="btn btn-fab btn-fab-super-mini" ng-click="clear()">
+            <i class="material-icons small">clear</i>
+        </button>
+    </span>
+
+    <span class="input-group-btn input-group-xs" ng-if="removeFile===false">
+        <button type="button" class="btn btn-fab btn-fab-super-mini">
+            <i class="material-icons small">attach_file</i>
+        </button>
+    </span> -->
+
+    <div class="overlay" ng-if="progress===true">
+        <div class="loading-nav-container form-control-overlay">
+            <div class="loading-nav-modal"></div>
+            <div class="loading-nav-indicator">
+                <div class="progress progress-striped active loading-nav-indicator-bg">
+                    <div class="progress-bar progress-bar-danger" style="width: 100%"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<!-- <div class="input-group">
+    <input class="form-control readonly" id="{{name}}_upload_file" name="{{name}}_upload_file" type="text" readonly/>
+    <span class="input-group-btn">
+        <div ng-if="emptyFile===false" class="fileUpload btn btn-default square">
+            <span class="glyphicon glyphicon-file-attachment">
+            </span>
+            <input onchange="angular.element(this).scope().getFileInfo(this)" id="{{name}}_upload_btn" name="{{name}}_upload_btn" type="file" class="upload"/>
+        </div>
+
+
+        <button ng-if="emptyFile===true" type="button" class="btn btn-danger square" ng-click="deleteFile()">
+            <i class="glyphicon glyphicon-action-delete"></i>
+        </button>
+
+    </span>
+</div>
+
+<div class="overlay" ng-if="progress===true">
+    <div class="loading-nav-container form-control-overlay">
+        <div class="loading-nav-modal"></div>
+        <div class="loading-nav-indicator">
+            <div class="progress progress-striped active loading-nav-indicator-bg">
+                <div class="progress-bar" style="width: 100%"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="overlay" ng-if="progress===true">
+    <button type="button" class="btn btn-danger square button-overlay pull-right form-control-overlay" ng-disabled="true">
+        <i class="glyphicon glyphicon-action-autorenew"></i>
+    </button>
+</div> -->
+

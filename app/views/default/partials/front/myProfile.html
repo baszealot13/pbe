@@ -1,0 +1,46 @@
+<style type="text/css" media="screen">
+    .myprofile-icon {
+        text-align: center;
+        color: #E0E0E0;
+    }
+    .myprofile-icon .material-icons {
+        font-size: 100px !important;
+    }
+</style>
+
+<div class="well well-sm">
+    <div class="myprofile-icon">
+        <i class="material-icons">account_circle</i>
+    </div>
+    
+    <h2 class="text-center">{{title}}</h2>
+
+    <div class="row text-center" ng-hide="changePasswdFrom">
+        <button type="button" class="btn btn-raised btn-danger btn-lg" ng-click="changePassword()">Change Password</button>
+    </div>
+
+    <div class="row" ng-show="changePasswdFrom">
+        <div class="col-xs-12 col-sm-5 col-md-5 col-sm-offset-3 col-md-offset-3">
+            <dt-password ng-model="rowData.curPassword"  name="curPassword" options="{placeHolder: 'Current Password'}"></dt-password>
+        </div>
+    </div>
+
+     <div class="row" ng-show="changePasswdFrom">
+        <div class="col-xs-12 col-sm-5 col-md-5 col-sm-offset-3 col-md-offset-3">
+            <dt-password ng-model="rowData.newPassword" name="newPassword" options="{placeHolder: 'New Password'}"></dt-password>
+        </div>
+    </div>
+
+     <div class="row" ng-show="changePasswdFrom">
+        <div class="col-xs-12 col-sm-5 col-md-5 col-sm-offset-3 col-md-offset-3">
+            <dt-password ng-model="rowData.confPassword" name="confPassword" options="{placeHolder: 'Confirm New Password'}"></dt-password>
+        </div>
+    </div>
+
+    <div class="row text-center" ng-show="changePasswdFrom">
+        <button type="button" class="btn btn-raised btn-default btn-lg" ng-click="changePasswdFrom=false">Cancel</button>
+        <button type="button" class="btn btn-raised btn-danger btn-lg" ng-click="saveChangePasswd(rowData)">Save Change</button>
+    </div>
+
+    <br/><br/>        
+</div>
