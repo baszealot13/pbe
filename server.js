@@ -282,7 +282,7 @@ app.get('/status', function (req, res) {
     }
 });
 
-var port = 3010;
+var port = 8443;
 app.listen(port);
 console.log('Server listening on port ' + port);
 process.setMaxListeners(0);
