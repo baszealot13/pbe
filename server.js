@@ -17,41 +17,43 @@ colors.setTheme({
 });
 
 // Process script arguments
-// process.argv.forEach(function (val, index) {
-//     if (val === '--env') {
-//         if (process.argv[index + 1] !== undefined) {
-//             process.env.NODE_ENV = process.argv[index + 1];
-//             console.log(colors.input('--env: %s'), process.env.NODE_ENV);
-//         }
-//     } else if (val === '--httpPort') {
-//         if (process.argv[index + 1] !== undefined) {
-//             process.env.HTTP_PORT = process.argv[index + 1];
-//             console.log(colors.input('--httpPort: %s'), process.env.HTTP_PORT);
-//         }
-//     } else if (val === '--httpsPort') {
-//         if (process.argv[index + 1] !== undefined) {
-//             process.env.HTTPS_PORT = process.argv[index + 1];
-//             console.log(colors.input('--httpsPort: %s'), process.env.HTTPS_PORT);
-//         }
-//     }
-// });
+process.argv.forEach(function (val, index) {
+    if (val === '--env') {
+        if (process.argv[index + 1] !== undefined) {
+            process.env.NODE_ENV = process.argv[index + 1];
+            // console.log(colors.input('--env: %s'), process.env.NODE_ENV);
+        }
+    } else if (val === '--httpPort') {
+        if (process.argv[index + 1] !== undefined) {
+            process.env.HTTP_PORT = process.argv[index + 1];
+            // console.log(colors.input('--httpPort: %s'), process.env.HTTP_PORT);
+        }
+    } 
+    // else if (val === '--httpsPort') {
+    //     if (process.argv[index + 1] !== undefined) {
+    //         process.env.HTTPS_PORT = process.argv[index + 1];
+    //         console.log(colors.input('--httpsPort: %s'), process.env.HTTPS_PORT);
+    //     }
+    // }
+});
 
 // Load environment variables
 // if (process.env.NODE_ENV === undefined || process.env.HTTP_PORT === undefined || process.env.HTTPS_PORT === undefined) {
-//     console.log(colors.error('NODE_ENV or HTTP_PORT or HTTPS_PORT not defined'));
-//     console.log(colors.help('If you do not have pm2 yet, you can install using the following command:'));
-//     console.log(colors.code('\tnpm install -g pm2'));
-//     console.log(colors.code('\tpm2 install pm2-logrotate'));
-//     console.log(colors.help('Start ICS services:'));
-//     console.log(colors.code('\tpm2 start development.json'));
-//     console.log(colors.help('Reload ICS services:'));
-//     console.log(colors.code('\tpm2 reload development.json'));
-//     console.log(colors.help('\tOr'));
-//     console.log(colors.code('\tpm2 gracefulReload development.json'));
-//     console.log(colors.help('Delete ICS services:'));
-//     console.log(colors.code('\tpm2 delete development.json'));
-//     process.exit(1);
-// }
+if (process.env.NODE_ENV === undefined || process.env.HTTP_PORT === undefined) {
+    console.log(colors.error('NODE_ENV or HTTP_PORT or HTTPS_PORT not defined'));
+    console.log(colors.help('If you do not have pm2 yet, you can install using the following command:'));
+    console.log(colors.code('\tnpm install -g pm2'));
+    console.log(colors.code('\tpm2 install pm2-logrotate'));
+    console.log(colors.help('Start PBE services:'));
+    console.log(colors.code('\tpm2 start development.json'));
+    console.log(colors.help('Reload PBE services:'));
+    console.log(colors.code('\tpm2 reload development.json'));
+    console.log(colors.help('\tOr'));
+    console.log(colors.code('\tpm2 gracefulReload development.json'));
+    console.log(colors.help('Delete PBE services:'));
+    console.log(colors.code('\tpm2 delete development.json'));
+    process.exit(1);
+}
 
 console.log(colors.verbose('Environment:'), process.env.NODE_ENV);
 var config = require(__dirname + '/config/config.json')[process.env.NODE_ENV];
@@ -282,9 +284,9 @@ app.get('/status', function (req, res) {
     }
 });
 
-var port = 80;
-app.listen(port);
-console.log('Server listening on port ' + port);
+// var port = 8080;
+app.listen(process.env.HTTP_PORT);
+console.log('Server listening on port ' + process.env.HTTP_PORT);
 process.setMaxListeners(0);
 // console.log('process.env.NODE_ENV: ', process.env.NODE_ENV);
 // console.log('process.env.HTTPS_PORT: ', process.env.HTTPS_PORT);

@@ -16,22 +16,22 @@
     "tests"
   ],
   "dependencies": {
-    "angular": "^1.5.6",
+    "angular": "~1.5.6",
     "bootstrap": "^3.3.6",
     "bootstrap-material-design": "^0.5.10",
-    "angular-resource": "^1.5.6",
-    "angular-route": "^1.5.6",
+    "angular-resource": "~1.5.6",
+    "angular-route": "~1.5.6",
     "jquery": "^2.2.4",
     "material-design-icons": "^2.2.3",
     "ngSweetAlert": "angular-sweetalert#^1.1.0",
     "angularjs-camelCase-human": "^1.0.0",
-    "angular-animate": "^1.5.7",
+    "angular-animate": "~1.5.7",
     "Angular-Notys": "angular-notys#^0.2.1",
     "noty": "^2.3.8",
     "ngCordova": "^0.1.27-alpha",
     "JZZ-modules": "https://github.com/jazz-soft/JZZ-modules.git",
     "angular-bootstrap": "^2.1.4",
-    "angular-cookies": "^1.5.8",
+    "angular-cookies": "~1.5.8",
     "localforage": "^1.4.3",
     "sprintf": "^1.0.3",
     "MIDI.js": "https://github.com/mudcube/MIDI.js.git",
@@ -43,6 +43,6 @@
   },
   "resolutions": {
     "jquery": "^3.1.1",
-    "angular": "^1.5.6"
+    "angular": "~1.5.6"
   }
 }

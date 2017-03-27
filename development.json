@@ -5,9 +5,7 @@
             "script": "server.js",
             "instances": 1,
             "exec_mode": "fork_mode",
-            "args": [
-                "--env development"
-            ],
+            "args": ["--env", "development"],
             "watch": false,
             "ignore_watch": [
                 "node_modules",
@@ -15,8 +13,7 @@
             ],
             "env": {
                 "NODE_ENV": "development",
-                "HTTP_PORT": 8880,
-                "HTTPS_PORT": 3010
+                "HTTP_PORT": 8443
             },
             "error_file": "logs/pbe-dev-err.log",
             "out_file": "logs/pbe-dev-out.log"

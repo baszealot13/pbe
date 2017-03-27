@@ -2,7 +2,7 @@
     "development": {
         "username": "pbe",
         "password": "password",
-        "database": "pbepiano_development",
+        "database": "pbe_eartraining_development",
         "host": "localhost",
         "port": 3308,
         "dialect": "mysql",
@@ -19,7 +19,7 @@
     "test": {
         "username": "pbe",
         "password": "password",
-        "database": "pbepiano_test",
+        "database": "pbe_eartraining_test",
         "host": "localhost",
         "port": 3308,
         "dialect": "mysql",
@@ -36,7 +36,7 @@
     "production": {
         "username": "pbe",
         "password": "password",
-        "database": "pbepiano",
+        "database": "pbe_eartraining",
         "host": "localhost",
         "port": 3308,
         "dialect": "mysql",

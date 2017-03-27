@@ -112,7 +112,7 @@ app.run(['$rootScope', '$http', '$location', '$route', '$timeout', 'LocalDBServi
         // console.log('getBearerToken_handler: ', rs);
         try {
             if (rs.result !== true) {
-                noty({type: 'warn', text: $translate.instant('Session expired. Please re-login.'), timeout: 3000});
+                noty({type: 'warn', text: 'Session expired. Please re-login.', timeout: 3000});
                 $rootScope.logout();
             }
         } catch (e) {
@@ -129,7 +129,7 @@ app.run(['$rootScope', '$http', '$location', '$route', '$timeout', 'LocalDBServi
         
         $('#wrapper').toggleClass('toggled');
 
-        if ($('#wrapper').hasClass('toggled')) {
+        if ($('#wrapper').hasClass('toggled') && $location.path() !== '/Login') {
             $timeout(function () {
                 $rootScope.sideBarToggle(elm);
             }, 5000);

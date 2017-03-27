@@ -25,7 +25,7 @@ var DatabaseConnection = {
      */
     createSequelize: function (environment, options) {
         var Sequelize = require('sequelize'),
-            database = 'pbepiano';
+            database = 'pbe_eartraining';
 
         // Set default options
         if (options === undefined) {
