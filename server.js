@@ -285,21 +285,24 @@ app.get('/status', function (req, res) {
     }
 });
 
-function drop_root () {
-    process.setgid('xeersoft');
-    process.setuid('xeersoft');
-}
+// function drop_root () {
+//     process.setgid('xeersoft');
+//     process.setuid('xeersoft');
+// }
 
-var port = 8080;
+// var port = 8080;
 app.listen(process.env.HTTP_PORT, null, null, function () {
-    console.log('User ID:',process.getuid() + ', Group ID:',process.getgid());
-    drop_root();
-    console.log('User ID:',process.getuid() + ', Group ID:',process.getgid());
+    // console.log('Server listening on port ' + process.env.HTTP_PORT);
+    if (process.env.HTTP_PORT === 80) {
+        console.log('User ID:',process.getuid() + ', Group ID:',process.getgid());
+        process.setgid('root');
+        process.setuid('root');
+        console.log('User ID:',process.getuid() + ', Group ID:',process.getgid());
+    } 
+    
     console.log('Server listening on port ' + process.env.HTTP_PORT);
 });
 
-// console.log('process.env.HTTP_PORT: ', process.env.HTTP_PORT);
-// console.log('process.env.HTTPS_PORT: ', process.env.HTTPS_PORT);
 
 // function approveDomains (opts, certs, cb) {
 //     console.log('opts: ', opts);
