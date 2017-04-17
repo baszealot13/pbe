@@ -293,14 +293,20 @@ app.get('/status', function (req, res) {
 // var port = 8080;
 app.listen(process.env.HTTP_PORT, null, null, function () {
     // console.log('Server listening on port ' + process.env.HTTP_PORT);
-    if (process.env.HTTP_PORT === 80) {
-        console.log('User ID:',process.getuid() + ', Group ID:',process.getgid());
-        process.setgid('root');
-        process.setuid('root');
-        console.log('User ID:',process.getuid() + ', Group ID:',process.getgid());
-    } 
+    try {
+        if (process.env.HTTP_PORT === 80) {
+            console.log('User ID:',process.getuid() + ', Group ID:',process.getgid());
+            process.setgid('root');
+            process.setuid('root');
+            console.log('User ID:',process.getuid() + ', Group ID:',process.getgid());
+        } 
+        
+        console.log('Server listening on port ' + process.env.HTTP_PORT);
+    } catch (e) {
+        console.log('Cowardly refusing to keep the process alive as root.');
+        process.exit(1);
+    }
     
-    console.log('Server listening on port ' + process.env.HTTP_PORT);
 });
 
 
