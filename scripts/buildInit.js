@@ -1,9 +1,17 @@
 "use strict";
 
+var env = 'development';
+
+process.argv.forEach(function (val, index) {
+    if (val === '--env') {
+        env = process.argv[index + 1];
+    }
+});
+
 var Sequelize = require('sequelize'),
     Q = require('q'),
     dbConn = require(__dirname + '/../api/DatabaseConnection.js'),
-    sequelize = dbConn.createSequelize('development', {logging: false}),
+    sequelize = dbConn.createSequelize(env, {logging: false}),
     User = dbConn.getModel(sequelize, 'User');
 
 User.findAll().then(function(users) {

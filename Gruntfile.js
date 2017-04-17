@@ -30,6 +30,7 @@ module.exports = function (grunt) {
         dropConsole = (grunt.option('drop-console') !== undefined) ? grunt.option('drop-console') : true,
         ignoreCert = (grunt.option('ignore-cert') !== undefined) ? grunt.option('ignore-cert') : false,
         dropUglify = (grunt.option('drop-uglify') !== undefined) ? grunt.option('drop-uglify') : false,
+        env = (grunt.option('env') !== undefined)? grunt.option('env'): 'development';
         nwVersion = '0.16.1',
         appVersion = '1.0.0',
         buildDir = path.resolve(__dirname + '/build/releases'),
@@ -268,7 +269,7 @@ module.exports = function (grunt) {
                 command: 'cordova run android'
             },
             build_init: {
-                command: 'node scripts/buildInit.js'
+                command: 'node scripts/buildInit.js --env ' + grunt.option('env')
             }
         }
     });
