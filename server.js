@@ -185,6 +185,7 @@ app.use('/api', app.oauth.authorise(), function (req, res, next) {
 // app.use('/api', router);
 app.use("/node_modules", express.static('node_modules'));
 app.use(express.static(__dirname + '/ui'));
+app.use(app.oauth.errorHandler());
 
 if (process.env.NODE_ENV === undefined) {
     process.env.NODE_ENV = 'development';
