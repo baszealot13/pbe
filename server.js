@@ -286,8 +286,8 @@ app.get('/status', function (req, res) {
 });
 
 function drop_root () {
-    process.setgid('nobody');
-    process.setuid('nobody');
+    process.setgid('xeersoft');
+    process.setuid('xeersoft');
 }
 
 var port = 8080;
