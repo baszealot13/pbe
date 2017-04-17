@@ -294,12 +294,12 @@ app.get('/status', function (req, res) {
 app.listen(process.env.HTTP_PORT, null, null, function () {
     // console.log('Server listening on port ' + process.env.HTTP_PORT);
     try {
-        if (process.env.HTTP_PORT === 80) {
-            console.log('User ID:',process.getuid() + ', Group ID:',process.getgid());
-            process.setgid('root');
-            process.setuid('root');
-            console.log('User ID:',process.getuid() + ', Group ID:',process.getgid());
-        } 
+        // if (process.env.HTTP_PORT === 80) {
+        //     console.log('User ID:',process.getuid() + ', Group ID:',process.getgid());
+        //     process.setgid('root');
+        //     process.setuid('root');
+        //     console.log('User ID:',process.getuid() + ', Group ID:',process.getgid());
+        // } 
         
         console.log('Server listening on port ' + process.env.HTTP_PORT);
     } catch (e) {
