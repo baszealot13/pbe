@@ -1,8 +1,17 @@
 'use strict';
 module.exports = {
     up: function (queryInterface, Sequelize) {
-        var storage = 'storage';
-        if (queryInterface.sequelize.options.env !== 'production') {
+        // console.log('lesson.queryInterface: ', queryInterface);
+        var storage = 'storage',
+            env = 'development';
+
+        process.argv.forEach(function (val, index) {
+            if (val === '--env') {
+                env = process.argv[index + 1];
+            }
+        });
+
+        if (env !== 'production') {
             storage = storage + '_development';
         }
 
@@ -16,9 +25,25 @@ module.exports = {
                 ls_active: 1 
             }];
 
-        return queryInterface.bulkInsert('lessonmst', lessons, { ignoreDuplicates: true });
+        if (env === 'development') {
+            return queryInterface.bulkInsert('lessonmst', lessons, { ignoreDuplicates: true });
+        } else {
+            return null;
+        }
     },
     down: function (queryInterface, Sequelize) {
-        return queryInterface.bulkDelete('lessonmst', null);
+        var env = 'development';
+
+        process.argv.forEach(function (val, index) {
+            if (val === '--env') {
+                env = process.argv[index + 1];
+            }
+        });
+
+        if (env === 'development') {
+            return queryInterface.bulkDelete('lessonmst', null);
+        } else {
+            return null;
+        }
     }
 };
