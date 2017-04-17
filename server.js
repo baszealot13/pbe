@@ -77,6 +77,7 @@ var fs = require('fs'),
     btoa = require('btoa'),
     multiparty = require('multiparty'),
     express = require('express'),
+    lex = require('greenlock-express'),
     bodyParser = require('body-parser'),
     oauthServer = require('oauth2-server'),
     AuthModel = require(__dirname + '/api/models/ext/AuthModel.js'),
@@ -284,9 +285,58 @@ app.get('/status', function (req, res) {
     }
 });
 
-// var port = 8080;
-app.listen(process.env.HTTP_PORT);
-console.log('Server listening on port ' + process.env.HTTP_PORT);
+function drop_root () {
+    process.setgid('nobody');
+    process.setuid('nobody');
+}
+
+var port = 8080;
+app.listen(process.env.HTTP_PORT, null, null, function () {
+    console.log('User ID:',process.getuid() + ', Group ID:',process.getgid());
+    drop_root();
+    console.log('User ID:',process.getuid() + ', Group ID:',process.getgid());
+    console.log('Server listening on port ' + process.env.HTTP_PORT);
+});
+
+// console.log('process.env.HTTP_PORT: ', process.env.HTTP_PORT);
+// console.log('process.env.HTTPS_PORT: ', process.env.HTTPS_PORT);
+
+// function approveDomains (opts, certs, cb) {
+//     console.log('opts: ', opts);
+//     console.log('certs: ', certs);
+//     console.log('cb: ', cb);
+
+//     if (certs) {
+//         opts.domains = certs.altnames;
+//     } else {
+//         opts.email = 'john.doe@example.com';
+//         opts.agreeTos = true;
+//     }
+
+//     cb(null, { options: opts, certs: certs });
+// }
+
+// lex.create({
+//     server: 'staging',
+//     challenges: { 
+//         'http-01': require('le-challenge-fs').create({ 
+//             webrootPath: '/tmp/acme-challenges' 
+//         }) 
+//     },
+//     store: require('le-store-certbot').create({ 
+//         webrootPath: '/tmp/acme-challenges' 
+//     }),
+//     approveDomains: approveDomains
+// });
+
+// http.createServer(lex.middleware(require('redirect-https')())).listen(process.env.HTTP_PORT, function () {
+//     console.log("Listening for ACME http-01 challenges on", this.address());
+// });
+
+// https.createServer(lex.httpsOptions, lex.middleware(app)).listen(process.env.HTTPS_PORT, function () {
+//   console.log("Listening for ACME tls-sni-01 challenges and serve app on", this.address());
+// });
+
 process.setMaxListeners(0);
 // console.log('process.env.NODE_ENV: ', process.env.NODE_ENV);
 // console.log('process.env.HTTPS_PORT: ', process.env.HTTPS_PORT);
