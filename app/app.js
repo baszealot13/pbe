@@ -84,6 +84,19 @@ app.config(['$routeProvider', '$httpProvider', '$resourceProvider', function ($r
                             }
                         });
                     });
+                } else if (rejection.data.code === 401 && rejection.data.error === 'invalid_token') {
+                    return $q(function(resolve, reject) {
+                        noty({
+                            modal: true,
+                            type: 'error',
+                            text: rejection.data.error_description,
+                            callback: {
+                                afterShow: function () {
+                                    $rootScope.logout();
+                                }
+                            }
+                        });
+                    });
                 }
 
                 // If not any case above, do nothing with this error and pass rejection to its caller
