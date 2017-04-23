@@ -26,11 +26,11 @@ colors.setTheme({
  */
 module.exports = function (grunt) {
 
-    var uiDir = 'ui',
-        dropConsole = (grunt.option('drop-console') !== undefined) ? grunt.option('drop-console') : true,
+    var dropConsole = (grunt.option('drop-console') !== undefined) ? grunt.option('drop-console') : true,
         ignoreCert = (grunt.option('ignore-cert') !== undefined) ? grunt.option('ignore-cert') : false,
         dropUglify = (grunt.option('drop-uglify') !== undefined) ? grunt.option('drop-uglify') : false,
-        env = (grunt.option('env') !== undefined)? grunt.option('env'): 'development';
+        env = (grunt.option('env') !== undefined)? grunt.option('env'): 'development',
+        uiDir = (env === 'production')? 'ui': 'ui_' + env,
         nwVersion = '0.16.1',
         appVersion = '1.0.0',
         buildDir = path.resolve(__dirname + '/build/releases'),
