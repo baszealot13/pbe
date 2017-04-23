@@ -136,7 +136,7 @@ var AuthModel = {
      */
     getAccessToken: function (bearerToken, done) {
         // console.log('getAccessToken.bearerToken:', bearerToken);
-        console.log('process.env.NODE_ENV: ', process.env.NODE_ENV);
+        // console.log('process.env.NODE_ENV: ', process.env.NODE_ENV);
         try {
             var accessToken = bearerToken || '',
                 dbConn = require(__dirname + '/../../DatabaseConnection.js'),
