@@ -75,6 +75,7 @@ var fs = require('fs'),
     walk = require('walk'),
     path = require("path"),
     btoa = require('btoa'),
+    cors = require('cors'),
     multiparty = require('multiparty'),
     express = require('express'),
     // lex = require('greenlock-express'),
@@ -89,6 +90,7 @@ var fs = require('fs'),
     app = express(),
     router = express.Router();
 
+app.use(cors());
 // Load routes
 var ROUTE_DIR = 'api/routes',
     routeFiles = [],
