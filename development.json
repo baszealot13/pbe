@@ -5,7 +5,7 @@
             "script": "server.js",
             "instances": 1,
             "exec_mode": "fork_mode",
-            "args": ["--env", "development"],
+            "args": ["--env development"],
             "watch": false,
             "ignore_watch": [
                 "node_modules",

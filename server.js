@@ -230,7 +230,7 @@ app.put('/public/api/libraries/addMidi', function (req, res) {
         }
 
         var file = files.file[0],
-            path = 'ui/media/midi/',
+            path = uiDir + '/media/midi/',
             fileType = file.originalFilename.split('.').pop();
 
 
@@ -312,90 +312,4 @@ app.listen(process.env.HTTP_PORT, null, null, function () {
     
 });
 
-
-// function approveDomains (opts, certs, cb) {
-//     console.log('opts: ', opts);
-//     console.log('certs: ', certs);
-//     console.log('cb: ', cb);
-
-//     if (certs) {
-//         opts.domains = certs.altnames;
-//     } else {
-//         opts.email = 'john.doe@example.com';
-//         opts.agreeTos = true;
-//     }
-
-//     cb(null, { options: opts, certs: certs });
-// }
-
-// lex.create({
-//     server: 'staging',
-//     challenges: { 
-//         'http-01': require('le-challenge-fs').create({ 
-//             webrootPath: '/tmp/acme-challenges' 
-//         }) 
-//     },
-//     store: require('le-store-certbot').create({ 
-//         webrootPath: '/tmp/acme-challenges' 
-//     }),
-//     approveDomains: approveDomains
-// });
-
-// http.createServer(lex.middleware(require('redirect-https')())).listen(process.env.HTTP_PORT, function () {
-//     console.log("Listening for ACME http-01 challenges on", this.address());
-// });
-
-// https.createServer(lex.httpsOptions, lex.middleware(app)).listen(process.env.HTTPS_PORT, function () {
-//   console.log("Listening for ACME tls-sni-01 challenges and serve app on", this.address());
-// });
-
 process.setMaxListeners(0);
-// console.log('process.env.NODE_ENV: ', process.env.NODE_ENV);
-// console.log('process.env.HTTPS_PORT: ', process.env.HTTPS_PORT);
-
-// https.createServer(serverOptions, app).listen(process.env.HTTPS_PORT, function () {
-//     console.log(colors.verbose('Express server listening on port:'), process.env.HTTPS_PORT);
-
-//     // Redirect from http to https
-//     http.createServer(function (req, res) {
-
-//         // check if the requested URL is for checking domain ownership then return 200 with blank content
-//         if (typeof config.domainOwnership === 'string') {
-//             if (req.url === config.domainOwnership) {
-//                 res.writeHead(200, {'Content-Type': 'text/html'});
-//                 res.end('');
-//                 return null;
-//             }
-//         } else if (Array.isArray(config.domainOwnership) === true) {
-//             for (var i = 0; i < config.domainOwnership.length; i++) {
-//                 if (req.url === config.domainOwnership[i]) {
-//                     res.writeHead(200, {'Content-Type': 'text/html'});
-//                     res.end('');
-//                     return null;
-//                 }
-//             }
-//         }
-
-//         // Other requests forward to HTTPs to handle
-//         var hostName = req.headers['host'] || req.headers['Host'];
-//         if (hostName.indexOf(':') !== -1) {
-//             hostName = hostName.split(':')[0];
-//         }
-
-//         if (process.env.HTTPS_PORT != 443) {
-//             hostName = hostName + ':' + process.env.HTTPS_PORT;
-//         }
-//         res.writeHead(301, {"Location": 'https://' + hostName + req.url});
-//         res.end();
-
-//     }).listen(process.env.HTTP_PORT, function () {
-//         console.log(colors.info('Port %s ready for redirection to port %s'), process.env.HTTP_PORT, process.env.HTTPS_PORT);
-//     });
-// });
-
-// process.setMaxListeners(0);
-
-
-
-
-                       

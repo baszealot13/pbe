@@ -4,7 +4,7 @@
     "script"      : "server.js",
     "instances": 1,
     "exec_mode"  : "fork_mode",
-    "args"        : ["--env", "production"],
+    "args"        : ["--env production"],
     "watch": ["server.js", "api", "ui"],
     "ignore_watch" : [
         "node_modules", 
