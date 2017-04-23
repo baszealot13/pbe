@@ -7,7 +7,7 @@ module.exports.setup = function (router) {
         router.route('/Role')
             .get(function (req, res) {
                 var dbConn = require(__dirname + '/../DatabaseConnection.js'),
-                    sequelize = dbConn.createSequelize('development', { logging: false }),
+                    sequelize = dbConn.createSequelize(req.user.sequelize, { logging: false }),
                     Role = dbConn.getModel(sequelize, 'Role');
 
                 Role.findAll({ where: { role_sys_delete_flag: 0 } }).then(function (result) {
@@ -22,7 +22,7 @@ module.exports.setup = function (router) {
             })
             .put(function (req, res) {
                 var dbConn = require(__dirname + '/../DatabaseConnection.js'),
-                    sequelize = dbConn.createSequelize('development', { logging: false }),
+                    sequelize = dbConn.createSequelize(req.user.sequelize, { logging: false }),
                     Role = dbConn.getModel(sequelize, 'Role'),
                     data = Role.parse(req.body);
 
@@ -49,7 +49,7 @@ module.exports.setup = function (router) {
         router.route('/Role/:role_id')
             .get(function (req, res) {
                 var dbConn = require(__dirname + '/../DatabaseConnection.js'),
-                    sequelize = dbConn.createSequelize('development', { logging: false }),
+                    sequelize = dbConn.createSequelize(req.user.sequelize, { logging: false }),
                     Role = dbConn.getModel(sequelize, 'Role');
 
                 var role_id = req.params.role_id;
@@ -64,7 +64,7 @@ module.exports.setup = function (router) {
             })
             .put(function (req, res) {
                 var dbConn = require(__dirname + '/../DatabaseConnection.js'),
-                    sequelize = dbConn.createSequelize('development', { logging: false }),
+                    sequelize = dbConn.createSequelize(req.user.sequelize, { logging: false }),
                     Role = dbConn.getModel(sequelize, 'Role'),
                     data = Role.parse(req.body);
 
@@ -92,7 +92,7 @@ module.exports.setup = function (router) {
             })
             .delete(function(req, res) {
                 var dbConn = require(__dirname + '/../DatabaseConnection.js'),
-                    sequelize = dbConn.createSequelize('development', { logging: false }),
+                    sequelize = dbConn.createSequelize(req.user.sequelize, { logging: false }),
                     Role = dbConn.getModel(sequelize, 'Role'),
                     data = {
                         role_sys_last_mod_user: 1,

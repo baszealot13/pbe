@@ -263,7 +263,7 @@ module.exports.setup = function (router) {
         router.route('/Lesson/Practice/:ls_id')
             .get(function (req, res) {
                 var dbConn = require(__dirname + '/../DatabaseConnection.js'),
-                    sequelize = dbConn.createSequelize('development', { logging: false }),
+                    sequelize = dbConn.createSequelize(req.user.sequelize, { logging: false }),
                     Lesson = dbConn.getModel(req.user.sequelize, 'Lesson'),
                     ls_id = req.params.ls_id,
                     fs = require('fs'),
@@ -293,7 +293,7 @@ module.exports.setup = function (router) {
         router.route('/Lesson/ByGroup/:ls_lsg_id')
             .get(function (req, res) {
                 var dbConn = require(__dirname + '/../DatabaseConnection.js'),
-                    sequelize = dbConn.createSequelize('development', { logging: false }),
+                    sequelize = dbConn.createSequelize(req.user.sequelize, { logging: false }),
                     Lesson = dbConn.getModel(sequelize, 'Lesson'), 
                     ls_lsg_id = req.params.ls_lsg_id;
 

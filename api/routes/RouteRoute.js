@@ -7,7 +7,7 @@ module.exports.setup = function (router) {
         router.route('/Route')
             .get(function (req, res) {
                 var dbConn = require(__dirname + '/../DatabaseConnection.js'),
-                    sequelize = dbConn.createSequelize('development', { logging: false }),
+                    sequelize = dbConn.createSequelize(req.user.sequelize, { logging: false }),
                     Route = dbConn.getModel(sequelize, 'Route');
 
                 Route.findAll({ where: { route_sys_delete_flag: 0 } }).then(function (result) {
@@ -22,7 +22,7 @@ module.exports.setup = function (router) {
             })
             .put(function (req, res) {
                 var dbConn = require(__dirname + '/../DatabaseConnection.js'),
-                    sequelize = dbConn.createSequelize('development', { logging: false }),
+                    sequelize = dbConn.createSequelize(req.user.sequelize, { logging: false }),
                     Route = dbConn.getModel(sequelize, 'Route'),
                     data = Route.parse(req.body);
 
@@ -49,7 +49,7 @@ module.exports.setup = function (router) {
         router.route('/Route/:route_id')
             .get(function (req, res) {
                 var dbConn = require(__dirname + '/../DatabaseConnection.js'),
-                    sequelize = dbConn.createSequelize('development', { logging: false }),
+                    sequelize = dbConn.createSequelize(req.user.sequelize, { logging: false }),
                     Route = dbConn.getModel(sequelize, 'Route');
 
                 var route_id = req.params.route_id;
@@ -64,7 +64,7 @@ module.exports.setup = function (router) {
             })
             .put(function (req, res) {
                 var dbConn = require(__dirname + '/../DatabaseConnection.js'),
-                    sequelize = dbConn.createSequelize('development', { logging: false }),
+                    sequelize = dbConn.createSequelize(req.user.sequelize, { logging: false }),
                     Route = dbConn.getModel(sequelize, 'Route'),
                     data = Route.parse(req.body);
 
@@ -92,7 +92,7 @@ module.exports.setup = function (router) {
             })
             .delete(function(req, res) {
                 var dbConn = require(__dirname + '/../DatabaseConnection.js'),
-                    sequelize = dbConn.createSequelize('development', { logging: false }),
+                    sequelize = dbConn.createSequelize(req.user.sequelize, { logging: false }),
                     Route = dbConn.getModel(sequelize, 'Route'),
                     data = {
                         route_sys_last_mod_user: 1,

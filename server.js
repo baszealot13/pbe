@@ -172,7 +172,6 @@ app.oauth = oauthServer({
 });
 
 app.all('/oauth/token', app.oauth.grant());
-
 app.use('/api', app.oauth.authorise(), function (req, res, next) {
     try {
         // if (!req.session.loggedIn) {

@@ -5,7 +5,7 @@ module.exports.setup = function (router) {
         router.route('/Role/Access/Route/:route_path')
             .get(function(req, res) {
                 var dbConn = require(__dirname + '/../DatabaseConnection.js'),
-                    sequelize = dbConn.createSequelize('development', { logging: false }),
+                    sequelize = dbConn.createSequelize(req.user.sequelize, { logging: false }),
                     RoleRouteMap = dbConn.getModel(sequelize, 'RoleRouteMap'),
                     Route = dbConn.getModel(sequelize, 'Route'),
                     User =  dbConn.getModel(sequelize, 'User'),
@@ -47,7 +47,7 @@ module.exports.setup = function (router) {
         router.route('/RoleRouteMap/Admin/Menu')
             .get(function (req, res) {
                 var dbConn = require(__dirname + '/../DatabaseConnection.js'),
-                    sequelize = dbConn.createSequelize('development', { logging: false }),
+                    sequelize = dbConn.createSequelize(req.user.sequelize, { logging: false }),
                     RoleRouteMap = dbConn.getModel(sequelize, 'RoleRouteMap'),
                     Route = dbConn.getModel(sequelize, 'Route'),
                     User =  dbConn.getModel(sequelize, 'User');
@@ -86,7 +86,7 @@ module.exports.setup = function (router) {
         router.route('/RoleRouteMap/Admin/Menu/:route_left/:route_right/:route_depth')
             .get(function (req, res) {
                 var dbConn = require(__dirname + '/../DatabaseConnection.js'),
-                    sequelize = dbConn.createSequelize('development', { logging: false }),
+                    sequelize = dbConn.createSequelize(req.user.sequelize, { logging: false }),
                     RoleRouteMap = dbConn.getModel(sequelize, 'RoleRouteMap'),
                     Route = dbConn.getModel(sequelize, 'Route'),
                     User =  dbConn.getModel(sequelize, 'User'),
