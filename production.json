@@ -5,7 +5,7 @@
     "instances": 1,
     "exec_mode"  : "fork_mode",
     "args"        : ["--env", "production"],
-    "watch": false,
+    "watch": ["server.js", "api", "ui"],
     "ignore_watch" : [
         "node_modules", 
         "bower_components"
