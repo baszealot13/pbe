@@ -80,6 +80,7 @@ var fs = require('fs'),
     // lex = require('greenlock-express'),
     bodyParser = require('body-parser'),
     oauthServer = require('oauth2-server'),
+    uiDir = 'ui',
     AuthModel = require(__dirname + '/api/models/ext/AuthModel.js'),
     // serverOptions = {
     //     key: fs.readFileSync(__dirname + config.ssl.key),
@@ -182,9 +183,14 @@ app.use('/api', app.oauth.authorise(), function (req, res, next) {
     return null;
 }, router);
 
+if (process.env.NODE_ENV !== 'production') {
+    uiDir = 'ui_' + process.env.NODE_ENV;
+    // storageDir = 'storage_' + process.env.NODE_ENV;
+}
+
 // app.use('/api', router);
 app.use("/node_modules", express.static('node_modules'));
-app.use(express.static(__dirname + '/ui'));
+app.use(express.static(__dirname + '/' + uiDir));
 app.use(app.oauth.errorHandler());
 
 var loadMidiLibraries = function (req, res) {
