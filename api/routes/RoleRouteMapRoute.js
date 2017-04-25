@@ -71,7 +71,7 @@ module.exports.setup = function (router) {
                             [ sequelize.literal('IFNULL((SELECT `route_parent`.`route_id` FROM `routemst` AS `route_parent` WHERE (`route_parent`.`route_left` < `Route`.`route_left` AND `route_parent`.`route_right` > `Route`.`route_right`) AND route_active = 1 ORDER BY `route_parent`.`route_depth` DESC LIMIT 1), 0)'), 'route_parent' ],
                             [ sequelize.literal('(SELECT COUNT(*) FROM `routemst` AS `subRoute` WHERE (`subRoute`.`route_left` > `Route`.`route_left` AND `subRoute`.`route_right` < `Route`.`route_right`) AND route_active = 1)'), 'subMenu' ]
                         ]),
-                        logging: true
+                        logging: false
                     }).then(function (rs) {
                         sequelize.close();
                         res.status(200).json({ 
@@ -126,7 +126,7 @@ module.exports.setup = function (router) {
                             [ sequelize.literal('IFNULL((SELECT `route_parent`.`route_id` FROM `routemst` AS `route_parent` WHERE (`route_parent`.`route_left` < `Route`.`route_left` AND `route_parent`.`route_right` > `Route`.`route_right`) AND route_active = 1 ORDER BY `route_parent`.`route_depth` DESC LIMIT 1), 0)'), 'route_parent' ],
                             [ sequelize.literal('(SELECT COUNT(*) FROM `routemst` AS `subRoute` WHERE (`subRoute`.`route_left` > `Route`.`route_left` AND `subRoute`.`route_right` < `Route`.`route_right`) AND route_active = 1)'), 'subMenu' ]
                         ]),
-                        logging: true
+                        logging: false
                     }).then(function (rs) {
                         sequelize.close();
                         res.status(200).json({ 
