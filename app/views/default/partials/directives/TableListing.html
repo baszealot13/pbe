@@ -15,7 +15,7 @@
             </td>
             <td ng-repeat="column in tHeader" ng-if="column.component!==undefined"
                 ng-class="{'table-column-checkbox':(column.component.type==='checkbox')}">
-                <dt-check-box ng-if="column.component.type==='checkbox'" ng-model="row[column.id]" name="{{row[column.id]}}_{{$index}}" disabled="true"></dt-check-box>
+                <dt-check-box ng-if="column.component.type==='checkbox'" ng-model="(row[column.id])? true: false" name="{{row[column.id]}}_{{$index}}" disabled="true"></dt-check-box>
             </td>
             <td ng-if="(options!==undefined && options.tools!==undefined)"  class="table-column-tools">
                 <ul>

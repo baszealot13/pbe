@@ -24,6 +24,11 @@
     font-size: 12px;
 }
 
+.btn,
+.input-group-btn .btn {
+    text-transform: none !important;
+}
+
 .btn.btn-fab.btn-fab-super-mini,
 .input-group-btn .btn.btn-fab.btn-fab-super-mini{
 /*.btn-group-sm .btn.btn-fab,

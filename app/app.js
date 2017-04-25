@@ -136,13 +136,15 @@ app.run(['$rootScope', '$http', '$location', '$route', '$timeout', 'LocalDBServi
     };
 
     $rootScope.sideBarToggle = function (elm) {
-        if (typeof elm !== 'undefined') {
+        // console.log('========sideBarToggle=======');
+        if (typeof elm === 'undefined') {
             elm.preventDefault();
         }
         
         $('#wrapper').toggleClass('toggled');
-
-        if ($('#wrapper').hasClass('toggled') && $location.path() !== '/Login') {
+        // console.log('$location.path(): ', $location.path());
+        // console.log($('#wrapper').hasClass('toggled'));
+        if ($('#wrapper').hasClass('toggled')) {
             $timeout(function () {
                 $rootScope.sideBarToggle(elm);
             }, 5000);
@@ -179,7 +181,11 @@ app.run(['$rootScope', '$http', '$location', '$route', '$timeout', 'LocalDBServi
         LocalDB.deleteUserData(function () {
             $http.get('/Logout');
             $location.path('Login');
-            $rootScope.sideBarToggle();
+            // $rootScope.sideBarToggle(false);
+            // if ($('#wrapper').hasClass('toggled')) {
+            //     $('#wrapper').removeClass();
+            // }
+            // $rootScope.sideBarToggle();
         });
     };
 

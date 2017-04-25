@@ -51,7 +51,7 @@ module.exports.setup = function (router) {
                     conditions = {};
 
                 for (var prop in searches) {
-                    console.log('prop: ', prop);
+                    // console.log('prop: ', prop);
                     if (searches.hasOwnProperty(prop)) {
                         if (typeof searches[prop] === 'string') {
                             conditions[prop] = { $like: '%' + searches[prop] + '%' };
@@ -64,6 +64,7 @@ module.exports.setup = function (router) {
                 conditions.lsg_sys_delete_flag = 0;
 
                 LessonGroup.findAll({ where: conditions, logging: false, raw: false }).then(function (result) {
+                    // console.log('lessonGroup', result);
                     req.user.sequelize.close();
                     res.status(200);
                     res.json({

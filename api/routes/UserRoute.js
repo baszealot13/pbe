@@ -87,10 +87,11 @@ module.exports.setup = function (router) {
                     raw: true,
                     logging: false
                 }).then(function (result) {
+                    // console.log('bf.user: ', result);
                     var stringify = JSON.stringify(result);
                     stringify = stringify.replace(/Role./g, '');
                     result = JSON.parse(stringify);
-
+                    // console.log('af.user: ', result);
                     req.user.sequelize.close();
                     res.status(200);
                     res.json({

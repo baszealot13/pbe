@@ -185,8 +185,9 @@ controllers.controller('UserSetupController',
                 }
             }
         }
-        console.log('User.search.searches: ', searches);
+        
         User.search(searches, function (result) {
+            console.log('result.data: ', result.data);
             $scope.listing.tBody = result.data;
             $scope.$emit('endLoading');
         });
