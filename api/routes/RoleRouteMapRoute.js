@@ -1,5 +1,7 @@
 "use strict";
 
+var nonActiveRoutes = ['/Administrator/UserSetup/Authorization', '/Administrator/UserSetup/Authorization/Role', '/Administrator/UserSetup/Authorization/RoleAuthorization', '/Administrator/StudentRegistration', '/Administrator/Teacher', '/Administrator/Teacher/StudentHistories'];
+
 module.exports.setup = function (router) {
     try {
         router.route('/Role/Access/Route/:route_path')
@@ -59,7 +61,7 @@ module.exports.setup = function (router) {
                         include: [{
                             model: Route,
                             required: true,
-                            where: { route_path: { $like: '%/Administrator%' }, route_active: 1 },
+                            where: { route_path: { $like: '%/Administrator%', $notIn: nonActiveRoutes }, route_active: 1 },
                             attributes: ['route_title', 'route_path', 'route_left', 'route_right', 'route_depth']
                         }],
                         where: {
@@ -68,7 +70,8 @@ module.exports.setup = function (router) {
                         attributes: Object.keys(RoleRouteMap.attributes).concat([
                             [ sequelize.literal('IFNULL((SELECT `route_parent`.`route_id` FROM `routemst` AS `route_parent` WHERE (`route_parent`.`route_left` < `Route`.`route_left` AND `route_parent`.`route_right` > `Route`.`route_right`) AND route_active = 1 ORDER BY `route_parent`.`route_depth` DESC LIMIT 1), 0)'), 'route_parent' ],
                             [ sequelize.literal('(SELECT COUNT(*) FROM `routemst` AS `subRoute` WHERE (`subRoute`.`route_left` > `Route`.`route_left` AND `subRoute`.`route_right` < `Route`.`route_right`) AND route_active = 1)'), 'subMenu' ]
-                        ])
+                        ]),
+                        logging: true
                     }).then(function (rs) {
                         sequelize.close();
                         res.status(200).json({ 
@@ -111,7 +114,7 @@ module.exports.setup = function (router) {
                                     }
                                 },
                                 route_depth: route_depth + 1,
-                                route_path: { $like: '%/Administrator%' }, 
+                                route_path: { $like: '%/Administrator%', $notIn: nonActiveRoutes }, 
                                 route_active: 1 
                             },
                             attributes: ['route_title', 'route_path', 'route_left', 'route_right', 'route_depth']
@@ -123,7 +126,7 @@ module.exports.setup = function (router) {
                             [ sequelize.literal('IFNULL((SELECT `route_parent`.`route_id` FROM `routemst` AS `route_parent` WHERE (`route_parent`.`route_left` < `Route`.`route_left` AND `route_parent`.`route_right` > `Route`.`route_right`) AND route_active = 1 ORDER BY `route_parent`.`route_depth` DESC LIMIT 1), 0)'), 'route_parent' ],
                             [ sequelize.literal('(SELECT COUNT(*) FROM `routemst` AS `subRoute` WHERE (`subRoute`.`route_left` > `Route`.`route_left` AND `subRoute`.`route_right` < `Route`.`route_right`) AND route_active = 1)'), 'subMenu' ]
                         ]),
-                        logging: false
+                        logging: true
                     }).then(function (rs) {
                         sequelize.close();
                         res.status(200).json({ 
